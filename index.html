@@ -83,14 +83,13 @@
             $("#reset").hide();
 
             $("#start-button").on("click", function () {
-            $("#mainsec").hide();
-            $("#timer").empty();
-            startGame();
+                $("#mainsec").hide();
+                $("#timer").empty();
+                startGame();
             });
 
 
             function startTimer() {
-
                 if (!running) {
                     intervalid = setInterval(decrement, 1000);
                     running = true;
@@ -109,7 +108,6 @@
                     running = false;
                     clearInterval(intervalId);
                 }
-
             }
             function startGame() {
                 console.log("Game Started!");
@@ -131,35 +129,35 @@
                         var userChoice = $("<div>");
                         userChoice.addClass("answerChoice");
                         userChoice.html(pick.choices[i]);
-                        
+
                         userChoice.attr("data-guessvalue", i);
                         $("#answerBlock").append(userChoice);
                     }
                 }
-            
-            $(".answerChoice").on("click", function () {
-                userGuess = parseInt($(this).attr("data-guessvalue"));
-                console.log(userGuess);
 
-                if (userGuess === pick.answer) {
-                    stop();
-                    correctCount++;
-                    console.log(correctCount);
-                    userGuess = "";
-                    $("#answerBlock").html("<p>Correct!</p>");
-                    nextStep();
+                $(".answerChoice").on("click", function () {
+                    userGuess = parseInt($(this).attr("data-guessvalue"));
+                    console.log(userGuess);
 
-                } else {
-                    stop();
-                    wrongCount++;
-                    countDown -= 15;
-                    console.log(wrongCount);
-                    userGuess = "";
-                    $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choices[pick.answer] + "</p>");
-                    nextStep();
-                }
-            })
-        }
+                    if (userGuess === pick.answer) {
+                        stop();
+                        correctCount++;
+                        console.log(correctCount);
+                        userGuess = "";
+                        $("#answerBlock").html("<p>Correct!</p>");
+                        nextStep();
+
+                    } else {
+                        stop();
+                        wrongCount++;
+                        countDown -= 15;
+                        console.log(wrongCount);
+                        userGuess = "";
+                        $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choices[pick.answer] + "</p>");
+                        nextStep();
+                    }
+                })
+            }
 
             function nextStep() {
                 completed.push(pick);
@@ -175,7 +173,7 @@
                     correctCount = 0;
                     wrongCount = 0;
                     unanswerCount = 0;
-                
+
                 } else {
                     startTimer();
                     displayQuestion();
@@ -188,9 +186,9 @@
 
         function inputBox() {
             var input = document.createElement("INPUT");
-                input.setAttribute("type", "text");
-                input.setAttribute("placeholder", "Enter name");
-                $("#answerBlock").append(input);
+            input.setAttribute("type", "text");
+            input.setAttribute("placeholder", "Enter name");
+            $("#answerBlock").append(input);
         }
 
         function scoreBox() {
@@ -207,12 +205,6 @@
             runTimer();
             displayQuestion();
         });
-
-      
-
-
-
-
     </script>
 
 </body>

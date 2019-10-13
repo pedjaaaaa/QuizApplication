@@ -6,26 +6,29 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
+    <title>Trivia Game</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Javascript Quiz</title>
 </head>
 
 <body>
+
     <header>
         <div class="row">
-        <div class="score col">
-            <p class="text-left">View Highscores</p>
-        </div>
-        <div class="timeleft col text-right">
-            <p id="time">Time Left: 0</p>
-            <input id="seconds" type="text" style="width: 20px; 
+            <div class="score col">
+                <a class="text-left mx-2">View Highscores</a>
+            </div>
+            <div class="timeleft col text-right mx-2">
+                <p id="timer">Time: 0
+                </p>
+                <input id="seconds" type="text" style="width: 20px; 
                             border: none; font-size: 16px; 
                             font-weight: bold; color: black;">
-        </div>
+            </div>
     </header>
+
     <section class="section mt-5">
-        <div class="container">
+        <div id="mainsec" class="container">
             <div class="row">
                 <div class="col text-center">
                     <h1><strong>Coding Quiz Challenge</strong></h1>
@@ -34,27 +37,76 @@
             <div class="row">
                 <div class="col text-center">
                     <p>Try to answer the folllowing code-related questions within the time limit. Keep in mind that
-                        incorrect answers will penalize your scoretime by ten seconds.</p>
+                        incorrect answers will penalize your scoretime by fifteen seconds.</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col text-center">
-                    <button class="btn btn-primary" id="start-button" onclick="startTimer()">Start Quiz</button>
+                    <button class="btn btn-primary" id="start-button" onlcick=startTime()>Start Quiz</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <script type="text/javascript" src="function.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="questions.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var countDown = 75;
+            var score = 0;
+            var quiz = $("<div>");
+
+            //  1.
+            //     Start the timer. (function)
+            function startTimer() {
+                // TODO: P 
+                // 3.
+                //  if timer = 0
+                //     end game
+            }
+            function startGame() {
+                console.log("Game Started!");
+                grabQuestion();
+
+            }
+            // 2. 
+            //     Grab question (function should include a loop)
+            function grabQuestion() {
+                //TODO
+                //         Read question
+                //             read choices (loop)
+            }
+
+            //     User should make a selection (on click event handler)
+            //$("#").on("click", function () {
+                //         If correct add to score (check answer function)
+                //         If wrong subtract from time 
+                //         Go back to step 2
+            //})
+
+            // 4.
+            function endGame() {
+                //  end game (function)
+                //     write initials
+                //     present high scores
+            }
+
+            $("#start-button").on("click", function () {
+                $("#mainsec").empty();
+                $("#timer").text("Time:" + countDown);
+                $(quiz).addClass("");
+                startGame();
+
+            })
+        });
+
+
+
+
+    </script>
+
 </body>
 
 </html>

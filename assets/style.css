@@ -1,0 +1,25 @@
+.answerChoice {
+	border: 1px solid black;
+  border-radius: 5%;
+	width: 40%;
+	color: white;
+  text-align: center;
+  margin: 10px auto;
+  font-size: 20px;
+  background-color: blue;
+
+}
+.answerChoice:hover {
+    background: lightblue;
+}
+
+#answerBlock {
+    text-align: center;
+  
+  }
+  
+  #questionBlock {
+    text-align: center;
+    font-weight: bold;
+  }
+

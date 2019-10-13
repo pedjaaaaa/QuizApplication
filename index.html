@@ -5,6 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
     <!-- Bootstrap CSS -->
     <title>Trivia Game</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -43,9 +44,11 @@
             <div class="row">
                 <div class="col text-center">
                     <button class="btn btn-primary" id="start-button" onlcick=startTime()>Start Quiz</button>
+                    <button class="btn btn-success" id="reset">Play Again?</button>
                 </div>
             </div>
         </div>
+
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -66,25 +69,52 @@
             var running = false;
             var userGuess = "";
             var correctCount = 0;
+            var unanswerCount = 0;
+            var wrongCount = 0;
+            var qCount = questions.length;
             var pick;
             var index;
             var quiz = $("<div>");
+            var completed = [];
+            var holder = [];
 
-            //  1.
-            //     Start the timer. (function)
+            $("#reset").hide();
+
+            $("#start-button").on("click", function () {
+            $("#mainsec").hide();
+            $("#timer").empty();
+            startGame();
+            });
+
+
             function startTimer() {
-                // TODO: P 
-                // 3.
-                //  if timer = 0
-                //     end game
+
+                if (!running) {
+                    intervalid = setInterval(decrement, 1000);
+                    running = true;
+                }
+                function decrement() {
+                    $("#timer").text("Time:" + countDown);
+                    countDown--;
+                    if (timer === 0) {
+                        unanswerCount++;
+                        stop();
+                        $("#answerBlock").html("<p>Time is up! The correct answer is: " + pick.choices[pick.answer] + "<p>")
+                    }
+                }
+
+                function stop() {
+                    running = false;
+                    clearInterval(intervalId);
+                }
+
             }
             function startGame() {
                 console.log("Game Started!");
                 displayQuestion();
                 startTimer();
             }
-            // 2. 
-            //     Grab question (function should include a loop)
+
             function displayQuestion() {
                 index = Math.floor(Math.random() * questions.length);
                 pick = questions[index];
@@ -93,54 +123,76 @@
 
                 } else {
                     console.log(pick.title);
+
                     $("#questionBlock").html("<h2>" + pick.title + "</h2>");
                     for (var i = 0; i < pick.choices.length; i++) {
                         var userChoice = $("<div>");
                         userChoice.addClass("answerChoice");
                         userChoice.html(pick.choices[i]);
+                        
                         userChoice.attr("data-guessvalue", i);
                         $("#answerBlock").append(userChoice);
                     }
-
                 }
-                //TODO
-                //         Read question
-                //             read choices (loop)
-            }
+            
             $(".answerChoice").on("click", function () {
                 userGuess = parseInt($(this).attr("data-guessvalue"));
-                //     User should make a selection (on click event handler)
-                //  $("#").on("click", function () {
-                //         If correct add to score (check answer function)
+                console.log(userGuess);
+
                 if (userGuess === pick.answer) {
                     stop();
                     correctCount++;
+                    console.log(correctCount);
                     userGuess = "";
                     $("#answerBlock").html("<p>Correct!</p>");
 
                 } else {
                     stop();
+                    wrongCount++;
+                    console.log(wrongCount);
                     userGuess = "";
-                    $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choice[pick.answer] + "</p>");
+                    $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choices[pick.answer] + "</p>");
+                    nextStep();
                 }
-                //         If wrong subtract from time 
-                //         Go back to step 2
-                //})
             })
-            // 4.
-            function endGame() {
-                //  end game (function)
-                //     write initials
-                //     present high scores
+        }
+
+            function nextStep() {
+                completed.push(pick);
+                questions.splice(index, 1);
+
+                if ((wrongCount + correctCount + unanswerCount) === qCount) {
+                    $("#questionBlock").empty();
+                    $("#questionBlock").html("<h3>Game Over! Total Score: </h3>");
+                    var totalScore = parseInt(correctCount) * countDown;
+                    $("#answerBlock").append("<h4>" + totalScore + "</h4>");
+                    $("#reset").show();
+                    correctCount = 0;
+                    wrongCount = 0;
+                    unanswerCount = 0;
+
+                } else {
+                    startTimer();
+                    displayQuestion();
+                }
+            };
+            //  end game (function)
+            //     write initials
+            //     present high scores
+        })
+
+        $("#reset").on("click", function () {
+            $("#reset").hide();
+            $("#answerBlock").empty();
+            $("#questionBlock").empty();
+            for (var i = 0; i < holder.length; i++) {
+                options.push(holder[i]);
             }
-
-            $("#start-button").on("click", function () {
-                $("#mainsec").hide();
-                $("#timer").text("Time:" + countDown);
-                startGame();
-
-            })
+            runTimer();
+            displayQuestion();
         });
+
+      
 
 
 

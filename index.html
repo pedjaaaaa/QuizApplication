@@ -32,12 +32,12 @@
         <div id="mainsec" class="container wrapper">
             <div class="row">
                 <div class="col text-center">
-                    <h1><strong>Coding Quiz Challenge</strong></h1>
+                    <h1><strong>Food Challenge</strong></h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col text-center">
-                    <p>Try to answer the folllowing code-related questions within the time limit. Keep in mind that
+                    <p>Try to answer the folllowing Food related questions within the time limit. Keep in mind that
                         incorrect answers will penalize your scoretime by fifteen seconds.</p>
                 </div>
             </div>
@@ -69,6 +69,7 @@
             var running = false;
             var userGuess = "";
             var correctCount = 0;
+            var highScore = 0;
             var unanswerCount = 0;
             var wrongCount = 0;
             var qCount = questions.length;
@@ -77,6 +78,7 @@
             var quiz = $("<div>");
             var completed = [];
             var holder = [];
+            localStorage.setItem("highScore", 0);
 
             $("#reset").hide();
 
@@ -145,10 +147,12 @@
                     console.log(correctCount);
                     userGuess = "";
                     $("#answerBlock").html("<p>Correct!</p>");
+                    nextStep();
 
                 } else {
                     stop();
                     wrongCount++;
+                    countDown -= 15;
                     console.log(wrongCount);
                     userGuess = "";
                     $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choices[pick.answer] + "</p>");
@@ -164,13 +168,14 @@
                 if ((wrongCount + correctCount + unanswerCount) === qCount) {
                     $("#questionBlock").empty();
                     $("#questionBlock").html("<h3>Game Over! Total Score: </h3>");
-                    var totalScore = parseInt(correctCount) * countDown;
+                    var totalScore = correctCount * countDown;
                     $("#answerBlock").append("<h4>" + totalScore + "</h4>");
+                    inputBox();
                     $("#reset").show();
                     correctCount = 0;
                     wrongCount = 0;
                     unanswerCount = 0;
-
+                
                 } else {
                     startTimer();
                     displayQuestion();
@@ -180,6 +185,17 @@
             //     write initials
             //     present high scores
         })
+
+        function inputBox() {
+            var input = document.createElement("INPUT");
+                input.setAttribute("type", "text");
+                input.setAttribute("placeholder", "Enter name");
+                $("#answerBlock").append(input);
+        }
+
+        function scoreBox() {
+            $("#")
+        }
 
         $("#reset").on("click", function () {
             $("#reset").hide();

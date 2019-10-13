@@ -28,7 +28,7 @@
     </header>
 
     <section class="section mt-5">
-        <div id="mainsec" class="container">
+        <div id="mainsec" class="container wrapper">
             <div class="row">
                 <div class="col text-center">
                     <h1><strong>Coding Quiz Challenge</strong></h1>
@@ -46,6 +46,14 @@
                 </div>
             </div>
         </div>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div id="questionBlock"></div>
+                    <div id="answerBlock"></div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <script type="text/javascript" src="questions.js"></script>
@@ -55,7 +63,11 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var countDown = 75;
-            var score = 0;
+            var running = false;
+            var userGuess = "";
+            var correctCount = 0;
+            var pick;
+            var index;
             var quiz = $("<div>");
 
             //  1.
@@ -68,24 +80,53 @@
             }
             function startGame() {
                 console.log("Game Started!");
-                grabQuestion();
-
+                displayQuestion();
+                startTimer();
             }
             // 2. 
             //     Grab question (function should include a loop)
-            function grabQuestion() {
+            function displayQuestion() {
+                index = Math.floor(Math.random() * questions.length);
+                pick = questions[index];
+
+                if (pick.shown) {
+
+                } else {
+                    console.log(pick.title);
+                    $("#questionBlock").html("<h2>" + pick.title + "</h2>");
+                    for (var i = 0; i < pick.choices.length; i++) {
+                        var userChoice = $("<div>");
+                        userChoice.addClass("answerChoice");
+                        userChoice.html(pick.choices[i]);
+                        userChoice.attr("data-guessvalue", i);
+                        $("#answerBlock").append(userChoice);
+                    }
+
+                }
                 //TODO
                 //         Read question
                 //             read choices (loop)
             }
-
-            //     User should make a selection (on click event handler)
-            //$("#").on("click", function () {
+            $(".answerChoice").on("click", function () {
+                userGuess = parseInt($(this).attr("data-guessvalue"));
+                //     User should make a selection (on click event handler)
+                //  $("#").on("click", function () {
                 //         If correct add to score (check answer function)
+                if (userGuess === pick.answer) {
+                    stop();
+                    correctCount++;
+                    userGuess = "";
+                    $("#answerBlock").html("<p>Correct!</p>");
+
+                } else {
+                    stop();
+                    userGuess = "";
+                    $("#answerBlock").html("<p>Wrong! The correct answer is: " + pick.choice[pick.answer] + "</p>");
+                }
                 //         If wrong subtract from time 
                 //         Go back to step 2
-            //})
-
+                //})
+            })
             // 4.
             function endGame() {
                 //  end game (function)
@@ -94,9 +135,8 @@
             }
 
             $("#start-button").on("click", function () {
-                $("#mainsec").empty();
+                $("#mainsec").hide();
                 $("#timer").text("Time:" + countDown);
-                $(quiz).addClass("");
                 startGame();
 
             })
